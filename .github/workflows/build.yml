@@ -1,0 +1,31 @@
+name: Build Docker Images (No Push)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build web image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./web
+          push: false
+          tags: nghia-web:latest
+
+      - name: Build api image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          push: false
+          tags: nghia-api:latest
